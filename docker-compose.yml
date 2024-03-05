@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  # Application service
+  fast_api:
+    build:
+      context: .
+    stdin_open: true
+    tty: true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api_fast_api:/app
+      - ./data:/data
+    depends_on:
+      - mongodb_wibo
+    env_file: .env
+    restart: always
+    networks:
+      - app-wibo
+
+  # MongoDB Database
+  mongodb_wibo:
+    image: mongo:latest
+    env_file: .env
+    ports:
+      - '27018:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    volumes:
+      - ./db_confs/mongod.conf:/etc/mongo/mongod.conf
+      - ./db_confs/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - mongo_data_wibo:/data/db
+    command: [ "mongod", "--config", "/etc/mongo/mongod.conf" ]
+    networks:
+      - app-wibo
+
+
+networks:
+  app-wibo:
+    driver: bridge
+
+volumes:
+  mongo_data_wibo:
