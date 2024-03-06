@@ -14,3 +14,6 @@ api_fast_api/config/__pycache__/__init__.cpython-310.pyc
 api_fast_api/models/__pycache__/User.cpython-310.pyc
 api_fast_api/models/__pycache__/Cat.cpython-310.pyc
 api_fast_api/routes/__pycache__/CatRoutes.cpython-310.pyc
+api_fast_api/auth/__pycache__/__init__.cpython-310.pyc
+api_fast_api/auth/__pycache__/jwt.cpython-310.pyc
+api_fast_api/routes/__pycache__/AuthRoutes.cpython-310.pyc
