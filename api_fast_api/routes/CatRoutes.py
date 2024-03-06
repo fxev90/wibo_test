@@ -1,13 +1,14 @@
 from config.db import get_mongo_client
-from fastapi import APIRouter, HTTPException, Path, status, Response, Query
+from fastapi import APIRouter, HTTPException, Path, status, Response, Query, Depends
 from models.Cat import Cat, CatCreate
 from bson import ObjectId
+from auth.jwt import get_current_user
 
 db = get_mongo_client()
 cat_router = APIRouter()
 
 @cat_router.post("/cats/", response_model=Cat, tags=["cats"])
-async def create_cat(cat_create: CatCreate):
+async def create_cat(cat_create: CatCreate, current_user: str = Depends(get_current_user)):
     try:
         cat_model = cat_create.dict()
         db.cats.insert_one(cat_model)
@@ -21,7 +22,8 @@ async def read_cats(
     breed: str = None,
     age: int = None,
     page: int = Query(1, ge=1),
-    limit: int = Query(10, le=100)
+    limit: int = Query(10, le=100),
+    current_user: str = Depends(get_current_user)
 ):
     try:
         # Construct the filter based on query parameters
@@ -45,7 +47,7 @@ async def read_cats(
 
 
 @cat_router.get("/cats/{cat_id}", response_model=Cat, tags=["cats"])
-async def read_cat(cat_id: str):
+async def read_cat(cat_id: str, current_user: str = Depends(get_current_user)):
     try:
         cat_model = db.cats.find_one(ObjectId(cat_id))
         if cat_model is None:
@@ -57,14 +59,14 @@ async def read_cat(cat_id: str):
 
 
 @cat_router.put("/cats/{cat_id}", response_model=Cat, tags=["cats"])
-async def update_cat(cat_id: str, cat_update: CatCreate):
+async def update_cat(cat_id: str, cat_update: CatCreate, current_user: str = Depends(get_current_user)):
     existing_cat = db.cats.find_one_and_update({"_id": ObjectId(cat_id)}, {"$set": cat_update.dict()})
     if existing_cat is None:
         raise HTTPException(status_code=404, detail="Cat not found")
     return existing_cat
 
 @cat_router.delete("/cats/{cat_id}",status_code=status.HTTP_204_NO_CONTENT, tags=["cats"])
-async def delete_cat(cat_id: str):
+async def delete_cat(cat_id: str, current_user: str = Depends(get_current_user)):
     cat_model = db.cats.find_one_and_delete({'_id':ObjectId(cat_id)})
     if cat_model is None:
         raise HTTPException(status_code=404, detail="Cat not found")

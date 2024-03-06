@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Path, status, Response, Query
+from fastapi import APIRouter, HTTPException, Path, status, Response, Query, Depends
 from models.User import User, UserDB, UserRegister, UserResponse
 from config.db import get_mongo_client
 from bson import ObjectId
@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 from schemas.UserSchemas import userSchema, usersSchema
 from pymongo import IndexModel, ASCENDING, errors
+from auth.jwt import get_current_user
 
 load_dotenv()
 
@@ -19,7 +20,7 @@ email_username_index = IndexModel([('email', ASCENDING), ('username', ASCENDING)
 db.users.create_indexes([email_username_index])
 
 @user_router.get("/user/", response_model=list[UserResponse], tags=["users"])
-async def find_all_users(skip: int = Query(0, alias="page", ge=0), limit: int = Query(10, le=100), name: str = None, email: str = None):
+async def find_all_users(skip: int = Query(0, alias="page", ge=0), limit: int = Query(10, le=100), name: str = None, email: str = None, current_user: str = Depends(get_current_user)):
     # Define query parameters for filtering
     filters = {}
     if name:
@@ -50,7 +51,7 @@ async def create_user(user: UserRegister):
         raise HTTPException(status_code=500, detail=str('Unknown error'))
 
 @user_router.get("/user/{user_id}", response_model=UserResponse, tags=["users"])
-async def read_user(user_id: str = Path(..., description="User ID")):
+async def read_user(user_id: str = Path(..., description="User ID"), current_user: str = Depends(get_current_user)):
     try:
         user_db = db.users.find_one({"_id": ObjectId(user_id)})
         if user_db:
@@ -62,7 +63,7 @@ async def read_user(user_id: str = Path(..., description="User ID")):
         raise HTTPException(status_code=500, detail=str(e))
 
 @user_router.put("/user/{user_id}", response_model=UserResponse, tags=["users"])
-async def update_user(user: UserRegister,user_id: str = Path(..., description="User ID")):
+async def update_user(user: UserRegister,user_id: str = Path(..., description="User ID"), current_user: str = Depends(get_current_user)):
     try:
         new_user = user.dict()
         new_user["password"] = password_context.hash(new_user["password"])
@@ -76,7 +77,7 @@ async def update_user(user: UserRegister,user_id: str = Path(..., description="U
         raise HTTPException(status_code=500, detail=str(e))
 
 @user_router.delete("/user/{user_id}",  tags=["users"])
-async def delete_user(user_id: str = Path(..., description="User ID")):
+async def delete_user(user_id: str = Path(..., description="User ID"), current_user: str = Depends(get_current_user)):
     try:
         db.users.find_one_and_delete({"_id": ObjectId(user_id)})
 
