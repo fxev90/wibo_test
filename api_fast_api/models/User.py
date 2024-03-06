@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from bson import ObjectId
 
 # Pydantic model for User
 class User(BaseModel):
@@ -12,3 +13,9 @@ class UserRegister(User):
 # MongoDB document model for User
 class UserDB(User):
     id: ObjectId
+    
+    class Config:
+        arbitrary_types_allowed = True
+        
+class UserResponse(User):
+    id: str
