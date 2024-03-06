@@ -10,6 +10,10 @@ origins = [
     "http://localhost:8080",
 ]
 
+
+
+app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -18,7 +22,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app = FastAPI()
 app.include_router(user_router)
 app.include_router(cat_router)
 app.include_router(auth_router)
