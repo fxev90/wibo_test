@@ -7,6 +7,12 @@ import os
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from auth.jwt import get_current_user
+from pydantic import BaseModel
+
+class UserData (BaseModel):
+    username: str
+    password: str
+
 
 db = get_mongo_client()
 auth_router = APIRouter()
@@ -22,7 +28,10 @@ password_context = CryptContext(schemes=[PASSWORD_HASH_ALGORITHM], deprecated="a
 
 
 @auth_router.post("/login/", tags = ["auth"])
-def login(username: str, password: str):
+def login(form_data: UserData):
+    data = form_data.dict()
+    username = data["username"]
+    password = data["password"]
     user = db.users.find_one({"username": username})
     if not user or not password_context.verify(password, user["password"]):
         raise HTTPException(
