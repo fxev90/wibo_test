@@ -1,5 +1,6 @@
 from typing import List
-from pydantic import BaseModel, ObjectId
+from pydantic import BaseModel
+from bson import ObjectId
 
 class CatBase(BaseModel):
     name: str
@@ -13,8 +14,7 @@ class CatCreate(CatBase):
     pass
 
 class Cat(CatBase):
-    id: ObjectId
+    _id: ObjectId
 
     class Config:
         arbitrary_types_allowed = True
-        odm_mode = True
