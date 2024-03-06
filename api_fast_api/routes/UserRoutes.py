@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Path, status, Response
+from fastapi import APIRouter, HTTPException, Path, status, Response, Query
 from models.User import User, UserDB, UserRegister, UserResponse
 from config.db import get_mongo_client
 from bson import ObjectId
@@ -19,9 +19,18 @@ email_username_index = IndexModel([('email', ASCENDING), ('username', ASCENDING)
 db.users.create_indexes([email_username_index])
 
 @userRouter.get("/user/", response_model=list[UserResponse], tags=["users"])
-async def find_all_users():
-    users_cursor = db.users.find()
+async def find_all_users(skip: int = Query(0, alias="page", ge=0), limit: int = Query(10, le=100), name: str = None, email: str = None):
+    # Define query parameters for filtering
+    filters = {}
+    if name:
+        filters["name"] = name
+    if email:
+        filters["email"] = email
 
+    # Apply pagination and filters to the MongoDB query
+    users_cursor = db.users.find(filters).skip(skip).limit(limit)
+
+    # Return the paginated and filtered results
     return usersSchema(users_cursor)
 
 @userRouter.post("/user/", response_model=UserResponse, tags=["users"])
