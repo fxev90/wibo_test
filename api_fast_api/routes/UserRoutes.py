@@ -13,12 +13,12 @@ load_dotenv()
 PASSWORD_HASH_ALGORITHM = "bcrypt"
 password_context = CryptContext(schemes=[PASSWORD_HASH_ALGORITHM], deprecated="auto")
 
-userRouter = APIRouter()
+user_router = APIRouter()
 db = get_mongo_client()
 email_username_index = IndexModel([('email', ASCENDING), ('username', ASCENDING)], unique=True)
 db.users.create_indexes([email_username_index])
 
-@userRouter.get("/user/", response_model=list[UserResponse], tags=["users"])
+@user_router.get("/user/", response_model=list[UserResponse], tags=["users"])
 async def find_all_users(skip: int = Query(0, alias="page", ge=0), limit: int = Query(10, le=100), name: str = None, email: str = None):
     # Define query parameters for filtering
     filters = {}
@@ -33,7 +33,7 @@ async def find_all_users(skip: int = Query(0, alias="page", ge=0), limit: int = 
     # Return the paginated and filtered results
     return usersSchema(users_cursor)
 
-@userRouter.post("/user/", response_model=UserResponse, tags=["users"])
+@user_router.post("/user/", response_model=UserResponse, tags=["users"])
 async def create_user(user: UserRegister):
     try:
         new_user = user.dict()
@@ -49,7 +49,7 @@ async def create_user(user: UserRegister):
         # Handle other exceptions
         raise HTTPException(status_code=500, detail=str('Unknown error'))
 
-@userRouter.get("/user/{user_id}", response_model=UserResponse, tags=["users"])
+@user_router.get("/user/{user_id}", response_model=UserResponse, tags=["users"])
 async def read_user(user_id: str = Path(..., description="User ID")):
     try:
         user_db = db.users.find_one({"_id": ObjectId(user_id)})
@@ -61,7 +61,7 @@ async def read_user(user_id: str = Path(..., description="User ID")):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@userRouter.put("/user/{user_id}", response_model=UserResponse, tags=["users"])
+@user_router.put("/user/{user_id}", response_model=UserResponse, tags=["users"])
 async def update_user(user: UserRegister,user_id: str = Path(..., description="User ID")):
     try:
         new_user = user.dict()
@@ -75,7 +75,7 @@ async def update_user(user: UserRegister,user_id: str = Path(..., description="U
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@userRouter.delete("/user/{user_id}",  tags=["users"])
+@user_router.delete("/user/{user_id}",  tags=["users"])
 async def delete_user(user_id: str = Path(..., description="User ID")):
     try:
         db.users.find_one_and_delete({"_id": ObjectId(user_id)})
