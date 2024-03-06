@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
+import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -14,7 +14,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient , private authService: AuthService) {}
 
   submitForm() {
     const formData = {
@@ -22,11 +22,10 @@ export class LoginComponent {
       password: this.password,
     };
 
-    // Assuming you have a backend server running at 127.0.0.1:8000
-    this.http.post('http://127.0.0.1:8000/login', formData)
+    this.http.post<{access_token: string, token_type: string}>('http://127.0.0.1:8000/login', formData)
       .subscribe(response => {
-        // Handle the response as needed
-        console.log(response);
+        this.authService.login();
+        this.authService.setToken(response['access_token']);
       }, error => {
         // Handle errors
         console.error(error);
