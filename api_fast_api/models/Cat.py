@@ -18,3 +18,6 @@ class Cat(CatBase):
 
     class Config:
         arbitrary_types_allowed = True
+
+class CatResponse(CatBase):
+    id: str

@@ -1,8 +1,9 @@
 from config.db import get_mongo_client
 from fastapi import APIRouter, HTTPException, Path, status, Response, Query, Depends
-from models.Cat import Cat, CatCreate
+from models.Cat import Cat, CatCreate, CatResponse
 from bson import ObjectId
 from auth.jwt import get_current_user
+from schemas.CatSchema import catSchema, catsSchema
 
 db = get_mongo_client()
 cat_router = APIRouter()
@@ -16,7 +17,7 @@ async def create_cat(cat_create: CatCreate, current_user: str = Depends(get_curr
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error creating cat: {str(e)}")
 
-@cat_router.get("/cats/", response_model=list[Cat], tags=["cats"])
+@cat_router.get("/cats/", response_model=list[CatResponse], tags=["cats"])
 async def read_cats(
     name: str = None,
     breed: str = None,
@@ -39,7 +40,7 @@ async def read_cats(
         cats = db.cats.find(filter_params).skip((page - 1) * limit).limit(limit)
 
         # Convert the MongoDB cursor to a list of dictionaries
-        cat_list = [cat for cat in cats]
+        cat_list = catsSchema(cats)
 
         return cat_list
     except Exception as e:

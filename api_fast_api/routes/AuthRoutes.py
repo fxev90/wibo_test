@@ -31,7 +31,7 @@ def login(username: str, password: str):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    token_data = {"sub": username, "id": user["_id"]}
+    token_data = {"sub": username, "id": str(user["_id"])}
     token = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
     return {"access_token": token, "token_type": "bearer"}
 
