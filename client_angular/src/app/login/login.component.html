@@ -1,0 +1,33 @@
+<!-- login.component.html -->
+
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white p-8 rounded shadow-md w-96">
+        <h1 class="text-2xl font-semibold mb-4">Login</h1>
+
+        <!-- Form -->
+        <form (submit)="submitForm()">
+
+            <!-- Username Field -->
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username *</label>
+                <input type="text" id="username" name="username" [(ngModel)]="username" required
+                    placeholder="Enter your username"
+                    class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500">
+            </div>
+
+            <!-- Password Field -->
+            <div class="mb-6">
+                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password *</label>
+                <input type="password" id="password" name="password" [(ngModel)]="password" required
+                    placeholder="Enter your password"
+                    class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit"
+                class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200">
+                Login
+            </button>
+        </form>
+    </div>
+</div>
