@@ -4,3 +4,11 @@
 # Ignore Python cache files
 __pycache__/*
 api_fast_api/__pycache__/main.cpython-310.pyc
+api_fast_api/schemas/__pycache__/UserSchemas.cpython-310.pyc
+api_fast_api/schemas/__pycache__/__init__.cpython-310.pyc
+api_fast_api/routes/__pycache__/UserRoutes.cpython-310.pyc
+api_fast_api/routes/__pycache__/__init__.cpython-310.pyc
+api_fast_api/models/__pycache__/__init__.cpython-310.pyc
+api_fast_api/config/__pycache__/db.cpython-310.pyc
+api_fast_api/config/__pycache__/__init__.cpython-310.pyc
+api_fast_api/models/__pycache__/User.cpython-310.pyc
