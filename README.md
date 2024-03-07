@@ -67,17 +67,15 @@ npm install
 npm install -g @angular/cli@latest
 ```
 
-```bash
-ng serve
-```
+
 
 ### Run the Application
 
 ```bash
-npm run dev
+ng serve
 ```
 
-The application will start running on [http://localhost:3000/]
+The application will start running on [http://localhost:4200/]
 
 ### DEMO Credentials
 user=admin
