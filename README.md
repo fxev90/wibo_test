@@ -13,7 +13,7 @@ The project also utilizes Docker for managing a Mongodb database and a container
 - [Getting Started](#getting-started)
 - [Clone the Repository](#clone-the-repository)
 - [Environment Setup](#environment-setup)
-- [Running the React Application](#running-the-react-application)
+- [Running the Angular Application](#running-the-angular-application)
 
 ## Prerequisites
 
