@@ -13,6 +13,11 @@ DB_URL = "mongodb://{username}:{password}@mongodb_wibo:27017/".format(
     password=USER_PASS,  
 )
 def get_mongo_client(model : str = DB_NAME):
+        """
+        A function to get a MongoDB client with the specified model. 
+        :param model: str - The model name for the MongoDB client (default is DB_NAME)
+        :return: MongoDB database - The MongoDB database for the specified model
+        """
         client = MongoClient(DB_URL)
         db = client[model]
         return db

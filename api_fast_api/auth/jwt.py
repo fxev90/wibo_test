@@ -18,6 +18,15 @@ password_context = CryptContext(schemes=[PASSWORD_HASH_ALGORITHM], deprecated="a
 
 
 def get_current_user(token: str = Depends(oauth2_scheme)):
+    """
+    Returns the current user based on the provided token.
+
+    Parameters:
+    - token (str): the authentication token
+
+    Returns:
+    - str: the username of the current user
+    """
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
