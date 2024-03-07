@@ -3,10 +3,48 @@ db = db.getSiblingDB('wibo_test');
 
 
 // Create a new collection and insert documents
-db.mycollection.insert([
-  { name: 'Document 1' },
-  { name: 'Document 2' },
-  { name: 'Document 3' }
+db.users.insert([
+  {
+    name: "Francisco1",
+    username: "admin",
+    email: "fxev90@gmail.com",
+    password: "$2b$12$3.Trhi3wYFfZVqMuaGV8SOH2j2MPPu3UF3jpWa79RcxWnBRsJMkzG"
+  }
+]);
+
+db.cats.insert([
+  {
+    name: "koko",
+    breed: "string",
+    age:2,
+    gender: "Male",
+    status: "Alive",
+    description: "Happy cat"
+  },
+  {
+    name: "koko",
+    breed: "string",
+    age:2,
+    gender: "Male",
+    status: "Alive",
+    description: "Happy cat"
+  },
+  {
+    name: "koko",
+    breed: "string",
+    age:2,
+    gender: "Male",
+    status: "Alive",
+    description: "Happy cat"
+  },
+  {
+    name: "koko",
+    breed: "string",
+    age:2,
+    gender: "Male",
+    status: "Alive",
+    description: "Happy cat"
+  }
 ]);
 
 
