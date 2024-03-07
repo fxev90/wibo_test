@@ -29,6 +29,15 @@ password_context = CryptContext(schemes=[PASSWORD_HASH_ALGORITHM], deprecated="a
 
 @auth_router.post("/login/", tags = ["auth"])
 def login(form_data: UserData):
+    """
+    Endpoint for user login. Validates user credentials and returns an access token.
+    
+    Parameters:
+    - form_data: UserData - input data containing username and password
+    
+    Returns:
+    - dict: containing access_token and token_type
+    """
     data = form_data.dict()
     username = data["username"]
     password = data["password"]
@@ -47,4 +56,13 @@ def login(form_data: UserData):
 
 @auth_router.get("/protected", tags = ["auth"])
 def protected_route(current_user: str = Depends(get_current_user)):
+    """
+    A route that returns a message to the authenticated user.
+    
+    Parameters:
+    - current_user: str, the authenticated user
+    
+    Returns:
+    - dict: a message addressed to the current authenticated user
+    """
     return {"message": f"Hello {current_user}, you are authenticated!"}
