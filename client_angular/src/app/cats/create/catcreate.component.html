@@ -1,0 +1,51 @@
+<div class="container mx-auto p-4">
+    <h1 class="text-2xl font-semibold mb-4">Add a Cat</h1>
+
+    <form (ngSubmit)="onSubmit()">
+        <div class="mb-4">
+            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name *</label>
+            <input type="text" id="name" name="name" [(ngModel)]="catData.name"
+                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="mb-4">
+            <label for="breed" class="block text-gray-700 text-sm font-bold mb-2">Breed *</label>
+            <input type="text" id="breed" name="breed" [(ngModel)]="catData.breed"
+                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="mb-4">
+            <label for="age" class="block text-gray-700 text-sm font-bold mb-2">Age *</label>
+            <input type="number" id="age" name="age" [(ngModel)]="catData.age"
+                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="mb-4">
+            <label for="gender" class="block text-gray-700 text-sm font-bold mb-2">Gender *</label>
+            <input type="text" id="gender" name="gender" [(ngModel)]="catData.gender"
+                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="mb-4">
+            <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status *</label>
+            <input type="text" id="status" name="status" [(ngModel)]="catData.status"
+                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500">
+        </div>
+
+        <div class="mb-6">
+            <label for="description" class="block text-gray-700 text-sm font-bold mb-2">Description *</label>
+            <textarea id="description" name="description" [(ngModel)]="catData.description"
+                class="w-full border border-gray-300 px-3 py-2 rounded focus:outline-none focus:border-blue-500"></textarea>
+        </div>
+
+        <button type="submit"
+            class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200">
+            Submit
+        </button>
+
+        <button (click)="returnToMain()"
+            class="bg-green-800 m-2 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:border-blue-700 focus:ring focus:ring-blue-200">
+            Return
+        </button>
+    </form>
+</div>
