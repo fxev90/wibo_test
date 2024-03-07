@@ -2,14 +2,29 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { tap, delay } from 'rxjs/operators';
 
+
+
+const storagePrefix = 'wibo_';
+
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  storage = {
+    getToken: () => {
+      return JSON.parse(window.localStorage.getItem(`${storagePrefix}token`) as string);
+    },
+    setToken: (token: string) => {
+      window.localStorage.setItem(`${storagePrefix}token`, JSON.stringify(token));
+    },
+    clearToken: () => {
+      window.localStorage.removeItem(`${storagePrefix}token`);
+    },
+  };
   isLoggedIn = false;
-  token: string | null = null;
   // store the URL so we can redirect after logging in
-  redirectUrl: string | null = "127.0.0.1:8000/users/";
+  redirectUrl: string | null = "127.0.0.1:4200/users";
 
   login(): Observable<boolean> {
     return of(true).pipe(
@@ -22,10 +37,7 @@ export class AuthService {
     this.isLoggedIn = false;
   }
 
-  setToken(token: string): void {
-    this.token = token;
-  }
-  getToken(): string | null {
-    return this.token;
+  headers() {
+    return { headers: { 'Authorization': `Bearer ${this.storage.getToken()}` } }
   }
 }

@@ -15,7 +15,12 @@ export class RegisterComponent {
   email: string = '';
   password: string = '';
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router) { }
+
+  redirectToLogin() {
+    this.router.navigate(['/login']);
+  }
+
 
   submitForm() {
     const formData = {
