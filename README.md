@@ -60,7 +60,7 @@ cd ./client_angular
 ### Install Dependencies
 
 ```bash
-npm install -g @angular/cli@latest
+npm install
 ```
 
 ```bash
