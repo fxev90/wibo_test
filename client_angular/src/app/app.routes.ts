@@ -5,6 +5,7 @@ import { UsersComponent } from './users/users.component';
 import { authGuard } from './auth/auth.guard';
 import { CatsComponent } from './cats/cats.component';
 import { CatsFormComponent } from './cats/create/catcreate.component';
+import { UserFormComponent } from './users/create/usercreate.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -12,5 +13,6 @@ export const routes: Routes = [
     { path: 'register', component: RegisterComponent, },
     { path: 'users', component: UsersComponent },
     { path: 'cats', component: CatsComponent },
-    { path: 'cats/create', component: CatsFormComponent }
+    { path: 'cats/create', component: CatsFormComponent },
+    { path: 'users/create', component: UserFormComponent },
 ];
