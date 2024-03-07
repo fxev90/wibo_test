@@ -90,3 +90,5 @@ vim ./db_confs/init-mongo.js
 ```bash
 vim ./db_confs/mongod.conf
 ```
+### Docs for Api
+http://127.0.0.1:8000/docs#/
