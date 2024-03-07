@@ -42,7 +42,7 @@ async def find_all_users(skip: int = Query(0, alias="page", ge=1), limit: int = 
         filters["email"] = email
 
     # Apply pagination and filters to the MongoDB query
-    users_cursor = db.users.find(filters).skip(skip-1).limit(limit)
+    users_cursor = db.users.find(filters).skip((skip - 1) * limit).limit(limit)
 
     # Return the paginated and filtered results
     return usersSchema(users_cursor)
