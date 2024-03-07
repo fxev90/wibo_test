@@ -21,6 +21,10 @@ export class CatsComponent {
     this.router.navigate(['/cats/create']);
   }
 
+  navigateToUsers() {
+    this.router.navigate(['/users/']);
+  }
+
   onCatRemove(id: string) {
     this.http.delete('http://127.0.0.1:8000/cats/' + id, this.authService.headers()).subscribe(response => {
       console.log(response);

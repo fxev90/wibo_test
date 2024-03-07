@@ -46,4 +46,11 @@ export class UsersComponent {
       this.loadUsers();
     }
   }
+  navigateToCreate() {
+    this.router.navigate(['/users/create']);
+  }
+
+  navigateToCats() {
+    this.router.navigate(['/cats/']);
+  }
 }
