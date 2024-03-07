@@ -20,12 +20,12 @@ email_username_index = IndexModel([('email', ASCENDING), ('username', ASCENDING)
 db.users.create_indexes([email_username_index])
 
 @user_router.get("/user/", response_model=list[UserResponse], tags=["users"])
-async def find_all_users(skip: int = Query(0, alias="page", ge=1), limit: int = Query(10, le=100), name: str = None, email: str = None, current_user: str = Depends(get_current_user)):
+async def find_all_users(page: int = Query(1, alias="page", ge=1), limit: int = Query(10, le=100), name: str = None, email: str = None, current_user: str = Depends(get_current_user)):
     """
     A function to find all users with optional filtering by name and email, and pagination.
     
     Parameters:
-        skip: int = Query(0, alias="page", ge=1) - the number of records to skip for pagination
+        page: int = Query(0, alias="page", ge=1) - the number of the page to retrieve
         limit: int = Query(10, le=100) - the maximum number of records to retrieve
         name: str = None - optional parameter for filtering by name
         email: str = None - optional parameter for filtering by email
@@ -42,7 +42,7 @@ async def find_all_users(skip: int = Query(0, alias="page", ge=1), limit: int = 
         filters["email"] = email
 
     # Apply pagination and filters to the MongoDB query
-    users_cursor = db.users.find(filters).skip((skip - 1) * limit).limit(limit)
+    users_cursor = db.users.find(filters).skip((page - 1) * limit).limit(limit)
 
     # Return the paginated and filtered results
     return usersSchema(users_cursor)
