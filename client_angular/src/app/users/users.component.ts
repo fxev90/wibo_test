@@ -23,12 +23,27 @@ export class UsersComponent {
   constructor(private http: HttpClient, private authService: AuthService, private router: Router) {
   }
 
-  ngOnInit() {
+  
+  loadUsers() {
     if (this.authService.storage.getToken()) {
       this.http.get<UserRecord[]>('http://127.0.0.1:8000/user/', this.authService.headers()).subscribe(response => {
         console.log(response);
         this.userList = response;
       })
+    }
+  }
+
+  onUserRemove(id: string) {
+    this.http.delete('http://127.0.0.1:8000/user/' + id, this.authService.headers()).subscribe(response => {
+      console.log(response);
+      alert(` User ${id} deleted! `);
+      this.loadUsers();
+    })
+  }
+
+  ngOnInit() {
+    if (this.authService.storage.getToken()) {
+      this.loadUsers();
     }
   }
 }
