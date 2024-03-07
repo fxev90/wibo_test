@@ -38,7 +38,7 @@ Copy the `.env.example` file and rename it to `.env`. Update the `.env` file wit
 cp .env.example .env
 ```
 
-### Run  Docker to build laravel app container
+### Run  Docker to build Fastapi app container
 
 In the root directory of the repository, run the following command:
 ```bash
