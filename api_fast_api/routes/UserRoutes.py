@@ -25,7 +25,7 @@ async def find_all_users(page: int = Query(1, alias="page", ge=1), limit: int = 
     A function to find all users with optional filtering by name and email, and pagination.
     
     Parameters:
-        page: int = Query(0, alias="page", ge=1) - the number of the page to retrieve
+        page: int = Query(1, alias="page", ge=1) - the number of the page to retrieve
         limit: int = Query(10, le=100) - the maximum number of records to retrieve
         name: str = None - optional parameter for filtering by name
         email: str = None - optional parameter for filtering by email
